@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <title>Panel principal</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"> <img src="logosinfondo.png" height="50"><strong>Panel Doctores</strong></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="d-flex align-items-center ms-auto">
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <span class="navbar-text">
+                        Bienvenido, Dr <span id="doctorName">[Nombre del Doctor]</span>
+                    </span>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="usuario.png" height="30">
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+                                <li><a class="dropdown-item" href="#">Modificar Perfil</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+        
+    <div class="container-fluid mt-4 ">
+        <div class="bg-light border border-dark-subtle rounded p-4 shadow-sm mb-4 text-center">
+            <h1>Bienvenido al panel de control del doctor</h1>
+            <p> Aquí puedes gestionar tus citas, ver tu agenda y acceder a otras funcionalidades importantes próximamente.</p>
+            <h3>Hoy estamos a <span id="currentDate">[Fecha actual]</span> </h3>
+            <h3>Son las <span id="currentTime">[Hora actual]</span></h3>
+        </div>
+
+        <div class="row">
+            <!-- PANEL IZQUIERDO CON BOTONES-->
+
+            <div class="col-md-6">
+                <div class="bg-light border border-dark-subtle rounded p-4 shadow-sm">
+                    <div class="d-flex flex-column align-items-center gap-3">
+                        
+                            <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" style="width: 33%;">
+                                Próximo Paciente
+                            </button>
+                        
+
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <p>[info paciente]</p>
+                            </div>
+                        </div>
+
+
+                        <button class="btn btn-outline-primary" style="width: 33%;">
+                            Ver Agenda de hoy
+                        </button>
+                        <button class="btn btn-outline-primary" style="width: 33%;">
+                            Horas Libres
+                        </button>
+
+                        <button class="btn btn-outline-danger" style="width: 33%;">
+                            Cancelaciones
+                        </button>
+
+        
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL DERECHO -->
+            <div class="col">
+
+                <div class="bg-light border border-dark-subtle rounded p-4 shadow-sm h-100">
+
+                    <h3>Calendario</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="text-white text-center py-4 mt-5" style="background-color: #0B1F3A;">
+
+    <div class="container">
+
+        <h5 class="mb-2">RedNorte Sistema Médico</h5>
+
+        <p class="mb-1">
+            Comprometidos con una atención médica eficiente, segura y conectada.
+        </p>
+
+        <small>
+            © 2026 RedNorte · Plataforma inteligente para la gestión hospitalaria
+        </small>
+
+    </div>
+
+</footer>
+    
+</body>
+</html>
