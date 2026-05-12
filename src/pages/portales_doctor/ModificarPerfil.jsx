@@ -32,7 +32,7 @@ export default function ModificarPerfil() {
         <>
             <Navbar />
 
-            <div className="container-fluid mt-4 mb-5">
+            <div className="container-fluid mt-4 mb-5 " style={{ width: '65%' }}>
 
                 <div className="bg-light border border-dark-subtle rounded p-5 shadow-sm">
 
@@ -258,7 +258,8 @@ export default function ModificarPerfil() {
                     {/* BOTÓN */}
                     <div className="text-center mt-5">
 
-                        <button className="btn btn-success px-5">
+                            
+                        <button  className="btn btn-success px-5">
                             Guardar Cambios
                         </button>
 
@@ -271,4 +272,8 @@ export default function ModificarPerfil() {
             <Footer />
         </>
     );
+}
+
+const styles={
+
 }

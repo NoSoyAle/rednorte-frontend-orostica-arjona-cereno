@@ -76,7 +76,6 @@ export default function DoctorDashboard() {
                         <div className="bg-light border border-dark-subtle rounded p-4 shadow-sm h-100">
 
                             <h3>Calendario</h3>
-                            <Calendario />
 
                         </div>
 
