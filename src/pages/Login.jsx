@@ -64,4 +64,5 @@ const styles = {
   error: { color:'#f87171', fontSize:'13px', textAlign:'center' },
   hr: { borderColor:'#334155', margin:'1rem 0' },
   link: { color:'#94a3b8', textAlign:'center', fontSize:'13px', margin:'0 0 8px' }
+
 };
