@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API = 'http://localhost:8080';
+const API = 'http://localhost:9090';
+
 
 export const login = (rut, password) =>
   axios.post(`${API}/auth/login`, { rut, password });
