@@ -1,49 +1,62 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/authService';
+import { register } from '../services/authService';
 
-export default function Login() {
+export default function Register() {
   const [rut, setRut] = useState('');
+  const [nombre, setNombre] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [mensaje, setMensaje] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    setError('');
+    setMensaje('');
+
+    if (!rut || !nombre || !password || !confirmPassword) {
+      setError('Todos los campos son obligatorios');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden');
+      return;
+    }
+
     try {
-      const res = await login(rut, password);
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('rol', res.data.rol);
-      if (res.data.rol === 'ADMIN') navigate('/admin');
-      else if (res.data.rol === 'DOCTOR') navigate('/doctor');
-    } catch {
-      setError('RUT o contraseña incorrectos');
+      const res = await register(rut, nombre, password);
+      setMensaje(res.data.message || 'Registro exitoso');
+      setTimeout(() => navigate('/'), 2000);
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Error al registrar usuario';
+      setError(msg);
     }
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>🏥 RedNorte</h1>
-        <p style={styles.subtitle}>Sistema de Gestión Hospitalaria</p>
-        <form onSubmit={handleLogin}>
+        <h1 style={styles.title}>RedNorte</h1>
+        <p style={styles.subtitle}>Crear cuenta</p>
+        <form onSubmit={handleRegister}>
           <input style={styles.input} placeholder="RUT (ej: 12345678-9)"
             value={rut} onChange={e => setRut(e.target.value)} />
+          <input style={styles.input} placeholder="Nombre completo"
+            value={nombre} onChange={e => setNombre(e.target.value)} />
           <input style={styles.input} type="password" placeholder="Contraseña"
             value={password} onChange={e => setPassword(e.target.value)} />
+          <input style={styles.input} type="password" placeholder="Confirmar contraseña"
+            value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
           {error && <p style={styles.error}>{error}</p>}
-          <button style={styles.btn} type="submit">Ingresar</button>
+          {mensaje && <p style={styles.success}>{mensaje}</p>}
+          <button style={styles.btn} type="submit">Registrarse</button>
         </form>
         <hr style={styles.hr} />
-        <p style={styles.link}>¿No estas registrado?</p>
-        <button style={styles.btnSecondary}
-          onClick={() => navigate('/register')}>
-            Registrarme
-          </button>
-        <p style={styles.link}>¿Eres paciente?</p>
-        <button style={styles.btnSecondary}
-          onClick={() => navigate('/paciente')}>
-          Consultar mi estado
+        <p style={styles.link}>¿Ya tienes cuenta?</p>
+        <button style={styles.btnSecondary} onClick={() => navigate('/')}>
+          Iniciar sesión
         </button>
       </div>
     </div>
@@ -67,6 +80,7 @@ const styles = {
     color:'#38bdf8', border:'1px solid #38bdf8', borderRadius:'8px',
     cursor:'pointer', fontSize:'14px' },
   error: { color:'#f87171', fontSize:'13px', textAlign:'center' },
-  hr: { borderColor:'#334155', margin:'0.5rem 0' },
-  link: { color:'#94a3b8', textAlign:'center', fontSize:'13px', margin:'0 0 8px', padding:"5px 0 0 0" }
+  success: { color:'#4ade80', fontSize:'13px', textAlign:'center' },
+  hr: { borderColor:'#334155', margin:'1rem 0' },
+  link: { color:'#94a3b8', textAlign:'center', fontSize:'13px', margin:'0 0 8px' }
 };
