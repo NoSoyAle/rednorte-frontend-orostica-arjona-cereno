@@ -67,6 +67,7 @@ const styles = {
     color:'#38bdf8', border:'1px solid #38bdf8', borderRadius:'8px',
     cursor:'pointer', fontSize:'14px' },
   error: { color:'#f87171', fontSize:'13px', textAlign:'center' },
-  hr: { borderColor:'#334155', margin:'0.5rem 0' },
-  link: { color:'#94a3b8', textAlign:'center', fontSize:'13px', margin:'0 0 8px', padding:"5px 0 0 0" }
+  hr: { borderColor:'#334155', margin:'1rem 0' },
+  link: { color:'#94a3b8', textAlign:'center', fontSize:'13px', margin:'0 0 8px' }
+
 };
