@@ -6,6 +6,7 @@ import DoctorDashboard from './pages/portales_doctor/DashboardDoctor';
 import ModificarPerfil from './pages/portales_doctor/ModificarPerfil';
 import AgendaMensual from './pages/portales_doctor/AgendaMensual';
 import AgendaDiaria from './pages/portales_doctor/AgendaDia';
+import Register from './pages/Register';
 
 export default function App() {
   return (
@@ -13,11 +14,14 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/admin" element={
-        <PrivateRoute rol="ADMIN"><AdminPortal /></PrivateRoute> } />
-        <Route path="/PanelDoctor" element={<DoctorDashboard />} />
+          <PrivateRoute rol="ADMIN"><AdminPortal /></PrivateRoute>
+        } />
+         <Route path="/PanelDoctor" element={<DoctorDashboard />} />
         <Route path="/Modificar" element={<ModificarPerfil />} />
         <Route path="/AgendaMensual" element={<AgendaMensual />} />
         <Route path="/AgendaDia" element={<AgendaDiaria />} />
+        <Route path="/register" element={<Register />}/>
+
       </Routes>
     </BrowserRouter>
   );
