@@ -1,13 +1,36 @@
-import axios from 'axios';
+import api from './api';
 
-const API = 'http://localhost:9090';
+export const authService = {
+  login: async (nombre, password) => {
+    const response = await api.post('/auth/login', { nombre, password });
+    const { token, role, nombre: userName } = response.data;
 
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify({ nombre: userName, role }));
 
-export const login = (rut, password) =>
-  axios.post(`${API}/auth/login`, { rut, password });
+    return { token, role, nombre: userName };
+  },
 
-export const consultarPaciente = (codigo) =>
-  axios.get(`${API}/lista-espera/codigo/${codigo}`);
+  register: async (rut, nombre, password) => {
+    const response = await api.post('/auth/registro', { rut, nombre, password });
+    return response;
+  },
 
-export const register = (rut, nombre, password) =>
-  axios.post(`${API}/auth/register`, { rut, nombre, password });
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  },
+
+  isAuthenticated: () => {
+    return !!localStorage.getItem('token');
+  },
+
+  getUser: () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  },
+
+  getToken: () => {
+    return localStorage.getItem('token');
+  },
+};

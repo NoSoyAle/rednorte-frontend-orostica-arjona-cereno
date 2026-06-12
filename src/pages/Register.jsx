@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../services/authService';
+import { authService } from '../services/authService';
 
 export default function Register() {
   const [rut, setRut] = useState('');
@@ -26,7 +26,7 @@ export default function Register() {
     }
 
     try {
-      const res = await register(rut, nombre, password);
+      const res = await authService.register(rut, nombre, password);
       setMensaje(res.data.message || 'Registro exitoso');
       setTimeout(() => navigate('/'), 2000);
     } catch (err) {

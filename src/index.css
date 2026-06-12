@@ -1,14 +1,132 @@
-body {
+* {
   margin: 0;
-  background: #0f172a;
-  font-family: system-ui, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f7fbfb;
+  color: #14213d;
 }
 
 #root {
-  width: 100%;
   min-height: 100vh;
 }
 
-.react-datepicker-wrapper {
-  width: 100%;
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1039;
+}
+
+.sidebar-link {
+  transition: all 0.15s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sidebar-link:hover {
+  background: #eef6f4;
+  color: #087f7a !important;
+}
+
+.sidebar-link.active {
+  background: #eef6f4;
+  color: #087f7a !important;
+  font-weight: 600;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+  }
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.active-nav {
+  background: #eef6f4 !important;
+  color: #087f7a !important;
+  font-weight: 600;
+}
+
+.kpi-card {
+  border-radius: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(8, 127, 122, 0.1) !important;
+}
+
+.card {
+  border-radius: 12px;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+.badge {
+  font-weight: 600;
+  font-size: 11px;
+  padding: 4px 10px;
+}
+
+.table th {
+  white-space: nowrap;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #087f7a;
+  box-shadow: 0 0 0 0.2rem rgba(8, 127, 122, 0.15);
+}
+
+.page-link {
+  color: #087f7a;
+}
+
+.page-item.active .page-link {
+  background-color: #087f7a;
+  border-color: #087f7a;
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d9e4e8;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #087f7a;
 }

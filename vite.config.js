@@ -7,11 +7,15 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/auth': {
-        target: 'http://localhost:8083',
+        target: 'http://localhost:9090',
+        changeOrigin: true,
+      },
+      '/admin': {
+        target: 'http://localhost:9090',
         changeOrigin: true,
       },
       '/lista-espera': {
-        target: 'http://localhost:8083',
+        target: 'http://localhost:9090',
         changeOrigin: true,
       },
     },

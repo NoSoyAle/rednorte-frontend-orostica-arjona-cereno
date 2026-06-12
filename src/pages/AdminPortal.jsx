@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import ListaEsperaApiView from './admin/ListaEsperaView';
 
 // ── VISTAS ──────────────────────────────────────────────
 
@@ -148,6 +149,7 @@ function PacientesView() {
   );
 }
 
+// eslint-disable-next-line no-unused-vars
 function ListaEsperaView() {
   const lista = [
     { id:1, paciente:'Carlos González', especialidad:'Cardiología', prioridad:1, estado:'ESPERANDO', fecha:'2025-03-10' },
@@ -373,7 +375,7 @@ export default function AdminPortal() {
       <div style={s.main}>
         {vista==='dashboard' && <DashboardView totalEspera={totalEspera} ocupacion={ocupacion} pacientes={pacientes} notificados={notificados} reasignar={reasignar} notificar={notificar} chartRef={chartRef} />}
         {vista==='pacientes' && <PacientesView />}
-        {vista==='espera' && <ListaEsperaView />}
+        {vista==='espera' && <ListaEsperaApiView />}
         {vista==='agenda' && <AgendaView />}
         {vista==='notificaciones' && <NotificacionesView />}
       </div>
