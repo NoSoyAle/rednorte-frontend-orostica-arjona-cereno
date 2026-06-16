@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-import { citasService } from '../../services/citasService';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -8,36 +6,12 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function EspecialidadesChart() {
-  const [estadisticas, setEstadisticas] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const cargarEstadisticas = async () => {
-      try {
-        const data = await citasService.obtenerEstadisticas();
-        setEstadisticas(data);
-      } catch (error) {
-        console.error('Error al cargar estadísticas:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    cargarEstadisticas();
-  }, []);
-
+export default function EspecialidadesChart({ especialidades = [], loading }) {
   if (loading) {
     return (
       <div className="card border-0 shadow-sm">
@@ -50,13 +24,15 @@ export default function EspecialidadesChart() {
     );
   }
 
-  if (!estadisticas || !estadisticas.especialidadesMasConfirmadas || Object.keys(estadisticas.especialidadesMasConfirmadas).length === 0) {
+  const sorted = [...especialidades].sort((a, b) => b.totalCitasConfirmadas - a.totalCitasConfirmadas);
+
+  if (sorted.length === 0) {
     return (
       <div className="card border-0 shadow-sm">
         <div className="card-body p-4">
           <h6 className="fw-bold mb-3" style={{ color: '#14213d' }}>
             <i className="bi bi-graph-up me-2" style={{ color: '#087f7a' }}></i>
-            Especialidades Más Solicitadas
+            Especialidades - Mayor Confirmación
           </h6>
           <div className="d-flex justify-content-center align-items-center text-muted" style={{ height: 200 }}>
             <p className="mb-0">No hay datos disponibles</p>
@@ -66,15 +42,15 @@ export default function EspecialidadesChart() {
     );
   }
 
-  const especialidades = Object.keys(estadisticas.especialidadesMasConfirmadas);
-  const cantidades = Object.values(estadisticas.especialidadesMasConfirmadas);
+  const labels = sorted.map((e) => e.nombreEspecialidad || `Especialidad ${e.especialidadId}`);
+  const values = sorted.map((e) => e.totalCitasConfirmadas);
 
   const data = {
-    labels: especialidades,
+    labels,
     datasets: [
       {
-        label: 'Citas Realizadas',
-        data: cantidades,
+        label: 'Citas Confirmadas',
+        data: values,
         backgroundColor: 'rgba(8, 127, 122, 0.8)',
         borderColor: 'rgba(8, 127, 122, 1)',
         borderWidth: 1,
@@ -86,29 +62,19 @@ export default function EspecialidadesChart() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    indexAxis: 'y',
     plugins: {
-      legend: {
-        display: false,
-      },
+      legend: { display: false },
     },
     scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          stepSize: 1,
-          color: '#5f6f7f',
-        },
-        grid: {
-          color: 'rgba(0, 0, 0, 0.05)',
-        },
-      },
       x: {
-        ticks: {
-          color: '#5f6f7f',
-        },
-        grid: {
-          display: false,
-        },
+        beginAtZero: true,
+        ticks: { stepSize: 1, color: '#5f6f7f' },
+        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+      },
+      y: {
+        ticks: { color: '#5f6f7f' },
+        grid: { display: false },
       },
     },
   };
@@ -118,9 +84,9 @@ export default function EspecialidadesChart() {
       <div className="card-body p-4">
         <h6 className="fw-bold mb-3" style={{ color: '#14213d' }}>
           <i className="bi bi-graph-up me-2" style={{ color: '#087f7a' }}></i>
-          Especialidades Más Solicitadas
+          Especialidades - Mayor Confirmación
         </h6>
-        <div style={{ height: 260 }}>
+        <div style={{ height: Math.max(260, sorted.length * 50) }}>
           <Bar data={data} options={options} />
         </div>
       </div>
