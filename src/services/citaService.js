@@ -45,3 +45,25 @@ export const eliminarCita = async (
     );
 
 };
+
+export const obtenerCitasPorFecha =
+async (doctorId, fecha) => {
+
+    const response = await axios.get(
+        `${API_URL}/doctor/${doctorId}/fecha/${fecha}`
+    );
+
+    return response.data;
+};
+
+export const obtenerHorariosDisponibles = async (
+    doctorId,
+    fecha
+) => {
+
+    const response = await axios.get(
+        `${API_URL}/disponibles/${doctorId}/${fecha}`
+    );
+
+    return response.data;
+};
