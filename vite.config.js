@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/auth': {
-        target: 'http://localhost:9090',
+        target: 'http://localhost:8081',
         changeOrigin: true,
       },
       '/admin': {

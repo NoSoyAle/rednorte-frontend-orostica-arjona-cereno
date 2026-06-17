@@ -23,19 +23,45 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    console.log('=== INICIANDO LOGIN ===');
+    console.log('Datos enviados:', data);
+    
     try {
-      await login(data.nombre, data.password);
+      console.log('Llamando a login...');
+      const result = await login(data.nombre, data.password);
+      console.log('Login exitoso:', result);
+      
       Swal.fire({
         icon: 'success',
         title: 'Bienvenido',
-        text: `Hola ${data.nombre}, ingresando al panel...`,
+        text: `Ingresando al panel...`,
         timer: 1500,
         showConfirmButton: false,
       });
-      navigate('/dashboard');
+      
+      console.log('Redirigiendo a:', result.role === 'DOCTOR' ? '/PanelDoctor' : '/dashboard');
+      
+      if (result.role === 'ADMIN') {
+        navigate('/dashboard');
+      } else if (result.role === 'DOCTOR') {
+        navigate('/PanelDoctor');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (error) {
-      console.error('Error en login:', error);
-      const errorMsg = error.response?.data?.message || error.message || 'Error de conexión con el servidor';
+      console.error('=== ERROR EN LOGIN ===');
+      console.error('Error completo:', error);
+      console.error('Error response:', error.response);
+      console.error('Error status:', error.response?.status);
+      console.error('Error data:', error.response?.data);
+      console.error('========================');
+      
+      const errorMsg = error.response?.status === 401 
+        ? 'Credenciales inválidas' 
+        : error.response?.data?.message || error.message || 'Error de conexión con el servidor';
+      
+      alert(`Error en login:\n\nStatus: ${error.response?.status}\n\nMensaje: ${errorMsg}`);
+      
       Swal.fire({
         icon: 'error',
         title: 'Error de acceso',

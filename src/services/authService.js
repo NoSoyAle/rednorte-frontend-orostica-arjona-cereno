@@ -2,13 +2,23 @@ import api from './api';
 
 export const authService = {
   login: async (nombre, password) => {
-    const response = await api.post('/auth/login', { nombre, password });
-    const { token, role, nombre: userName } = response.data;
+    try {
+      const response = await api.post('/auth/login', { nombre, password });
+      const { token, role, nombre: userName } = response.data;
 
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify({ nombre: userName, role }));
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      localStorage.setItem('nombre', userName);
+      localStorage.setItem('user', JSON.stringify({ nombre: userName, role }));
 
-    return { token, role, nombre: userName };
+      return { token, role, nombre: userName };
+    } catch (error) {
+      console.error('=== LOGIN FALLÓ ===');
+      console.error('response.data completo:', error.response?.data);
+      console.error('Status:', error.response?.status);
+      console.error('===================');
+      throw error;
+    }
   },
 
   register: async (rut, nombre, password) => {

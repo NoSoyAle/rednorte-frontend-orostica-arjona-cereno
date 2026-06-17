@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios'; // Importamos Axios para conectar con el backend
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const GATEWAY_URL = 'http://localhost:9090'; // Tu API Gateway o puerto del microservicio
+const GATEWAY_URL = 'http://localhost:9090';
 
 const requests = {
   'RN-4821': {
@@ -41,6 +42,7 @@ const steps = [
 ];
 
 export default function PacientePortal() {
+  const navigate = useNavigate();
   const initialCode = 'RN-4821';
   const [inputCode, setInputCode] = useState(initialCode);
   const [currentCode, setCurrentCode] = useState(initialCode);
@@ -200,17 +202,32 @@ Válido como comprobante de asistencia institucional.
             ))}
           </nav>
 
-          <button
-            style={{ ...s.menuButton, ...(isMobile ? s.menuButtonMobile : {}) }}
-            type="button"
-            aria-label="Abrir menú"
-            aria-expanded={isMenuOpen}
-            onClick={() => setIsMenuOpen((open) => !open)}
-          >
-            <span style={s.menuLine} />
-            <span style={s.menuLine} />
-            <span style={s.menuLine} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <button
+              style={s.loginButton}
+              type="button"
+              onClick={() => navigate('/login')}
+              title="Iniciar sesión"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M10 3.5a.5.5 0 0 0-1 0v9a.5.5 0 0 0 1 0v-9zm-3.5 6a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5z"/>
+                <path d="M6 1.5A1.5 1.5 0 0 1 7.5 0h5A1.5 1.5 0 0 1 14 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 6 14.5v-13zM7.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5h-5z"/>
+                <path d="M0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H.5A.5.5 0 0 1 0 8z"/>
+              </svg>
+              <span style={s.loginButtonText}>Ingresar</span>
+            </button>
+            <button
+              style={{ ...s.menuButton, ...(isMobile ? s.menuButtonMobile : {}) }}
+              type="button"
+              aria-label="Abrir menú"
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((open) => !open)}
+            >
+              <span style={s.menuLine} />
+              <span style={s.menuLine} />
+              <span style={s.menuLine} />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -529,6 +546,22 @@ const s = {
     cursor: 'pointer',
   },
   menuButtonMobile: { display: 'block' },
+  loginButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 6,
+    minHeight: 40,
+    border: '1px solid #087f7a',
+    borderRadius: 8,
+    padding: '0 14px',
+    background: '#fff',
+    color: '#087f7a',
+    font: 'inherit',
+    fontSize: 14,
+    fontWeight: 800,
+    cursor: 'pointer',
+  },
+  loginButtonText: {},
   menuLine: { display: 'block', width: 18, height: 2, margin: '4px auto', borderRadius: 2, background: 'currentColor' },
   main: {},
   hero: {

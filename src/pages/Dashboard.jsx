@@ -20,9 +20,11 @@ export default function Dashboard() {
     especialidadesMayorConfirmacion: [],
   });
   const [registroLoading, setRegistroLoading] = useState(true);
+  const [registroError, setRegistroError] = useState('');
 
   const fetchRegistro = useCallback(async () => {
     setRegistroLoading(true);
+    setRegistroError('');
     try {
       const data = await getAdminRegistro();
       setRegistro({
@@ -32,6 +34,7 @@ export default function Dashboard() {
       });
     } catch (error) {
       console.error('Error al cargar registro admin:', error);
+      setRegistroError('No se pudieron cargar los datos del registro. Verifique que los servicios estén disponibles.');
     } finally {
       setRegistroLoading(false);
     }
@@ -61,6 +64,14 @@ export default function Dashboard() {
             <h4 className="fw-bold mb-1" style={{ color: '#14213d' }}>Dashboard</h4>
             <p className="text-muted mb-0">Resumen general del sistema</p>
           </div>
+
+          {registroError && (
+            <div className="alert alert-warning alert-dismissible fade show" role="alert">
+              <i className="bi bi-exclamation-triangle-fill me-2"></i>
+              {registroError}
+              <button type="button" className="btn-close" onClick={() => setRegistroError('')}></button>
+            </div>
+          )}
 
           <div className="row g-3 mb-4">
             <div className="col-12 col-sm-6 col-xl-4">

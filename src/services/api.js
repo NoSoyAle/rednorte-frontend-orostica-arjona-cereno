@@ -19,10 +19,15 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.error('=== ERROR EN RESPUESTA ===');
+    console.error('URL:', error.config?.url);
+    console.error('Status:', error.response?.status);
+    console.error('Data:', error.response?.data);
+    console.error('Token en localStorage:', localStorage.getItem('token'));
+    console.error('========================');
+    
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+      alert(`Error 401:\n\nURL: ${error.config?.url}\n\nRespuesta: ${JSON.stringify(error.response?.data)}`);
     }
     return Promise.reject(error);
   }
