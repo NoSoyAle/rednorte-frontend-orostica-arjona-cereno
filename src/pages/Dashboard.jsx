@@ -1,21 +1,50 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import Navbar from '../components/layout/Navbar';
 import Sidebar from '../components/layout/Sidebar';
 import Footer from '../components/layout/Footer';
 import KpiCard from '../components/dashboard/KpiCard';
 import UserDistributionChart from '../components/dashboard/UserDistributionChart';
 import RecentUsersTable from '../components/dashboard/RecentUsersTable';
+import CitasCanceladasTable from '../components/dashboard/CitasCanceladasTable';
+import CitasRealizadasTable from '../components/dashboard/CitasRealizadasTable';
+import EspecialidadesChart from '../components/dashboard/EspecialidadesChart';
 import useUsers from '../hooks/useUsers';
-import { useState } from 'react';
+import { getAdminRegistro } from '../services/adminService';
 
 export default function Dashboard() {
   const { kpis, allUsers, loading, fetchKpis, fetchUsers } = useUsers();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [registro, setRegistro] = useState({
+    citasCanceladas: [],
+    citasConfirmadas: [],
+    especialidadesMayorConfirmacion: [],
+  });
+  const [registroLoading, setRegistroLoading] = useState(true);
+  const [registroError, setRegistroError] = useState('');
+
+  const fetchRegistro = useCallback(async () => {
+    setRegistroLoading(true);
+    setRegistroError('');
+    try {
+      const data = await getAdminRegistro();
+      setRegistro({
+        citasCanceladas: data.citasCanceladas || [],
+        citasConfirmadas: data.citasConfirmadas || [],
+        especialidadesMayorConfirmacion: data.especialidadesMayorConfirmacion || [],
+      });
+    } catch (error) {
+      console.error('Error al cargar registro admin:', error);
+      setRegistroError('No se pudieron cargar los datos del registro. Verifique que los servicios estén disponibles.');
+    } finally {
+      setRegistroLoading(false);
+    }
+  }, []);
 
   const refreshData = useCallback(() => {
     fetchKpis();
     fetchUsers();
-  }, [fetchKpis, fetchUsers]);
+    fetchRegistro();
+  }, [fetchKpis, fetchUsers, fetchRegistro]);
 
   useEffect(() => {
     refreshData();
@@ -35,6 +64,14 @@ export default function Dashboard() {
             <h4 className="fw-bold mb-1" style={{ color: '#14213d' }}>Dashboard</h4>
             <p className="text-muted mb-0">Resumen general del sistema</p>
           </div>
+
+          {registroError && (
+            <div className="alert alert-warning alert-dismissible fade show" role="alert">
+              <i className="bi bi-exclamation-triangle-fill me-2"></i>
+              {registroError}
+              <button type="button" className="btn-close" onClick={() => setRegistroError('')}></button>
+            </div>
+          )}
 
           <div className="row g-3 mb-4">
             <div className="col-12 col-sm-6 col-xl-4">
@@ -72,6 +109,33 @@ export default function Dashboard() {
             </div>
             <div className="col-12 col-lg-7">
               <RecentUsersTable users={allUsers} loading={loading} />
+            </div>
+          </div>
+
+          <div className="row g-3 mb-4">
+            <div className="col-12">
+              <CitasCanceladasTable
+                citas={registro.citasCanceladas}
+                loading={registroLoading}
+              />
+            </div>
+          </div>
+
+          <div className="row g-3 mb-4">
+            <div className="col-12">
+              <CitasRealizadasTable
+                citas={registro.citasConfirmadas}
+                loading={registroLoading}
+              />
+            </div>
+          </div>
+
+          <div className="row g-3 mb-4">
+            <div className="col-12">
+              <EspecialidadesChart
+                especialidades={registro.especialidadesMayorConfirmacion}
+                loading={registroLoading}
+              />
             </div>
           </div>
         </main>

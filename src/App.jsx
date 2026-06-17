@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './routes/ProtectedRoute';
 
 const Login = lazy(() => import('./pages/Login'));
@@ -31,7 +32,7 @@ function AppRoutes() {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <Routes key={location.pathname}>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<PacientePortal />} />
         <Route path="/login" element={<Login />} />
         <Route path="/paciente" element={<PacientePortal />} />
         <Route path="/pacientes" element={<PacientePortal />} />
@@ -54,8 +55,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

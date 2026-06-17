@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-const GATEWAY_URL = 'http://localhost:9090'; // Tu API Gateway
-const API_ADMIN = `${GATEWAY_URL}/admin`;
+import api from '../../services/api';
 
 const emptyForm = {
   nombre: '',
@@ -23,8 +20,8 @@ export default function AdminDashboardView() {
     setLoading(true);
     try {
       const [resKpis, resUsuarios] = await Promise.all([
-        axios.get(`${API_ADMIN}/dashboard/kpis`),
-        axios.get(`${API_ADMIN}/usuarios`)
+        api.get('/admin/dashboard/kpis'),
+        api.get('/admin/usuarios')
       ]);
       setKpis(resKpis.data);
       setUsuarios(resUsuarios.data);
@@ -50,10 +47,9 @@ export default function AdminDashboardView() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${API_ADMIN}/usuarios`, form);
+      await api.post('/admin/usuarios', form);
       setMessage({ type: 'success', text: `Usuario ${form.nombre} registrado con éxito.` });
       setForm(emptyForm);
-      // Recargar datos para actualizar los KPIs y la tabla automáticamente
       await cargarDashboard();
     } catch (error) {
       const errorMsg = error.response?.data?.message || 'No se pudo crear el usuario.';

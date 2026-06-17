@@ -13,7 +13,8 @@ export default function useUsers() {
     try {
       const data = await getUsers();
       setUsers(Array.isArray(data) ? data : []);
-    } catch {
+    } catch (error) {
+      console.error('Error al cargar usuarios:', error);
       setUsers([]);
     } finally {
       setLoading(false);
