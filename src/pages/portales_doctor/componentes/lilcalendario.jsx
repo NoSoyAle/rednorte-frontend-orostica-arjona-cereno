@@ -5,35 +5,34 @@ import interactionPlugin from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es';
 import * as bootstrap from 'bootstrap';
 
-export default function CalendarioSemanal() {
+export default function CalendarioSemanal({ citas = [] }) {
 
     const [eventoSeleccionado, setEventoSeleccionado] = useState(null);
 
-    const eventos = [
-        {
-            title: 'María González',
-            start: '2026-05-12T09:00:00',
-            end: '2026-05-12T09:15:00',
+    const eventos = citas.map(cita => ({
+        id: cita.id,
 
-            extendedProps: {
-                edad: 42,
-                tipo: 'Consulta General',
-                correo: 'maria@gmail.com',
-            }
+        title: `Paciente ${cita.pacienteId}`,
+
+        start: `${cita.fecha}T${cita.horaInicio}`,
+
+        end: `${cita.fecha}T${cita.horaFin}`,
+
+        extendedProps: {
+            estado: cita.estado,
+            pacienteId: cita.pacienteId
         }
-    ];
+    }));
 
     function manejarEventoClick(info) {
 
         setEventoSeleccionado({
-            nombre: info.event.title,
-            hora: info.event.start.toLocaleTimeString([], {
+            paciente: info.event.extendedProps.pacienteId,
+            estado: info.event.extendedProps.estado,
+            hora: info.event.start.toLocaleTimeString('es-CL', {
                 hour: '2-digit',
                 minute: '2-digit'
-            }),
-            edad: info.event.extendedProps.edad,
-            tipo: info.event.extendedProps.tipo,
-            correo: info.event.extendedProps.correo
+            })
         });
 
         const modal = new bootstrap.Modal(
@@ -48,23 +47,30 @@ export default function CalendarioSemanal() {
             <div className="bg-white p-3 rounded shadow-sm">
 
                 <FullCalendar
-                    plugins={[timeGridPlugin, interactionPlugin]}
+                    plugins={[
+                        timeGridPlugin,
+                        interactionPlugin
+                    ]}
                     initialView="timeGridWeek"
                     locale={esLocale}
                     height="700px"
                     events={eventos}
                     eventClick={manejarEventoClick}
                     allDaySlot={false}
+                    slotMinTime="06:00:00"
+                    slotMaxTime="21:00:00"
+                    slotDuration="00:15:00"
+                    nowIndicator={true}
+                    expandRows={true}
                 />
 
             </div>
-
-            {/* MODAL */}
 
             <div
                 className="modal fade"
                 id="modalEvento"
                 tabIndex="-1"
+                aria-hidden="true"
             >
                 <div className="modal-dialog modal-dialog-centered">
 
@@ -80,6 +86,7 @@ export default function CalendarioSemanal() {
                                 type="button"
                                 className="btn-close"
                                 data-bs-dismiss="modal"
+                                aria-label="Cerrar"
                             ></button>
 
                         </div>
@@ -89,28 +96,18 @@ export default function CalendarioSemanal() {
                             {eventoSeleccionado && (
                                 <>
                                     <p>
-                                        <strong>Paciente:</strong>{' '}
-                                        {eventoSeleccionado.nombre}
+                                        <strong>Paciente ID:</strong>{' '}
+                                        {eventoSeleccionado.paciente}
                                     </p>
 
                                     <p>
-                                        <strong>Edad:</strong>{' '}
-                                        {eventoSeleccionado.edad}
+                                        <strong>Estado:</strong>{' '}
+                                        {eventoSeleccionado.estado}
                                     </p>
 
                                     <p>
                                         <strong>Hora:</strong>{' '}
                                         {eventoSeleccionado.hora}
-                                    </p>
-
-                                    <p>
-                                        <strong>Consulta:</strong>{' '}
-                                        {eventoSeleccionado.tipo}
-                                    </p>
-
-                                    <p>
-                                        <strong>Correo:</strong>{' '}
-                                        {eventoSeleccionado.correo}
                                     </p>
                                 </>
                             )}
