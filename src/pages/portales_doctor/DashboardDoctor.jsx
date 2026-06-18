@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as bootstrap from "bootstrap";
-
 import { useNavigate, Link } from "react-router-dom";
-
 import Navbar from "./componentes/Navbar";
 import Footer from "./componentes/footer";
 import CalendarioSemanal from "./componentes/lilcalendario";
@@ -10,9 +8,9 @@ import ModalDisponibilidad from "./componentes/ModalDisponibilidad";
 import ModalAtencion from "./componentes/ModalCita";
 import {obtenerCitasDoctor,actualizarCita,obtenerHorariosDisponibles} from "../../services/citaService";
 import {crearDisponibilidad} from "../../services/diponibilidadService";
+import { generarAtencionTxt }from "../../utils/GenerarAtencion";
 
 export default function DoctorDashboard() {
-
     const navigate = useNavigate();
     const [fechaActual, setFechaActual] =useState(new Date());
     const [citas, setCitas] =useState([]);
@@ -20,7 +18,6 @@ export default function DoctorDashboard() {
     const [horariosLibres, setHorariosLibres] = useState([]);
     const [citaSeleccionada, setCitaSeleccionada] =
     useState(null);
-
     const [atencion, setAtencion] =useState({
         motivo: "",
         licencia: false,
@@ -31,16 +28,12 @@ export default function DoctorDashboard() {
         indicaciones: "",
         comentarios: ""
     });
-
-
     // TEMPORAL
     const doctorId = 8;
     const cerrar = () => {
         localStorage.clear();
         navigate("/");
-
     };
-
     useEffect(() => {const intervalo = setInterval(() => {
         setFechaActual(new Date());}, 1000);
         return () =>
@@ -123,7 +116,10 @@ export default function DoctorDashboard() {
 
     const finalizarAtencion = async () => {
         if (!citaSeleccionada) return;
-        try {
+        try {generarAtencionTxt(
+                citaSeleccionada,
+                atencion
+            );
             await actualizarCita(
                 citaSeleccionada.id,
                 {
@@ -131,19 +127,39 @@ export default function DoctorDashboard() {
                     estado: "REALIZADA"
                 }
             );
+            const modal =
+                bootstrap.Modal.getInstance(
+                    document.getElementById(
+                        "modalAtencion"
+                    )
+                );
+            if (modal) {
+                modal.hide();
+            }
+            setAtencion({
+                motivo: "",
+                licencia: false,
+                detalleLicencia: "",
+                diagnostico: "",
+                medicamentos: "",
+                derivacion: "",
+                indicaciones: "",
+                comentarios: ""
+            });
+            setCitaSeleccionada(null);
             cargarCitas();
         } catch (error) {
             console.error(error);
-            alert("Error al finalizar la atención");
+            alert(
+                "Error al finalizar la atención"
+            );
         }
     };
-
 
 
     const guardarDisponibilidad =async (disponibilidades) => {
             try {for (const disponibilidad of disponibilidades) {
                 await crearDisponibilidad(disponibilidad);}
-
                 alert("Disponibilidad guardada correctamente");} catch (error) {
                     console.error(error);
                     alert(

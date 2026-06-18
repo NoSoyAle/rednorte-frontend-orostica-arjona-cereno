@@ -1,16 +1,12 @@
 import React from "react";
 import {generarAtencionTxt} from "../../../utils/GenerarAtencion";
 
-
-
 export default function ModalAtencion({
     cita,
     atencion,
     setAtencion,
     finalizar
-}) {
-
-    return (
+}) {return (
         <div
             className="modal fade"
             id="modalAtencion"
