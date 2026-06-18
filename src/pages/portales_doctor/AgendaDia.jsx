@@ -1,7 +1,4 @@
-import React, {
-    useEffect,
-    useState
-} from "react";
+import React, {useEffect,useState} from "react";
 
 import Navbar from "./componentes/Navbar";
 import Footer from "./componentes/footer";

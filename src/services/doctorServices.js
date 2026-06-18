@@ -1,12 +1,24 @@
-const API_URL = 'http://localhost:8080';
+import axios from "axios";
 
-export async function obtenerDoctores() {
+const API_URL =
+    "http://localhost:8085/api/doctor";
 
-    const response = await fetch(`${API_URL}/doctores`);
+export const obtenerDoctores =
+    async () => {
 
-    if (!response.ok) {
-        throw new Error('Error al obtener doctores');
-    }
+        const response =
+            await axios.get(API_URL);
 
-    return await response.json();
-}
+        return response.data;
+    };
+
+export const obtenerDoctoresPorEspecialidad =
+    async (idEspecialidad) => {
+
+        const response =
+            await axios.get(
+                `${API_URL}/especialidad/${idEspecialidad}`
+            );
+
+        return response.data;
+    };

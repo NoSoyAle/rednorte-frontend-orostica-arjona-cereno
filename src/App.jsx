@@ -16,6 +16,7 @@ const AgendaMensual = lazy(() => import('./pages/portales_doctor/AgendaMensual')
 const AgendaDiaria = lazy(() => import('./pages/portales_doctor/AgendaDia'));
 const Register = lazy(() => import('./pages/Register'));
 const PacientesDoctor = lazy(() => import('./pages/portales_doctor/PacientesDoctor'));
+const SolicitarHora = lazy(() => import('./pages/SolicitarHora'));
 
 
 function LoadingFallback() {
@@ -50,6 +51,7 @@ function AppRoutes() {
         <Route path="/doctors/new" element={<ProtectedRoute><DoctorNew /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
         <Route path="/PacientesDoctor"element={<PacientesDoctor />}/>
+        <Route path="/hora_medica"element={< SolicitarHora/>}/>
       </Routes>
     </Suspense>
   );

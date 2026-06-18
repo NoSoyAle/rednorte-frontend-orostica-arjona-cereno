@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import PasoRut from "./SolicitarHoraComp/PasoRut";
+import PasoPaciente from "./SolicitarHoraComp/PasoPaciente";
+import PasoDoctor from "./SolicitarHoraComp/PasoDoctor";
+import PasoFechaHora from "./SolicitarHoraComp/PasoFechaHora";
+import PasoConfirmacion from "./SolicitarHoraComp/PasoConfirmacion";
 
-import PasoRut from "../components/solicitarHora/PasoRut";
-import PasoPaciente from "../components/solicitarHora/PasoPaciente";
-import PasoDoctor from "../components/solicitarHora/PasoDoctor";
-import PasoFechaHora from "../components/solicitarHora/PasoFechaHora";
-import PasoConfirmacion from "../components/solicitarHora/PasoConfirmacion";
 
 export default function SolicitarHora() {
 
@@ -20,6 +20,7 @@ export default function SolicitarHora() {
 
     const [horaSeleccionada,
         setHoraSeleccionada] = useState(null);
+
 
     return (
 
