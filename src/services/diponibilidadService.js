@@ -1,5 +1,5 @@
-const API_URL =
-    "http://localhost:8085/api/disponibilidad";
+import axios from "axios";
+const API_URL ="http://localhost:8085/api/disponibilidad";
 
 export const crearDisponibilidad =
     async (disponibilidad) => {

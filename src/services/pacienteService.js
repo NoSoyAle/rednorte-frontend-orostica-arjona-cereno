@@ -1,4 +1,5 @@
 import api from './api';
+const API_URL ="http://localhost:8083/api/pacientes";
 
 export const pacienteService = {
   getPacientes: async () => {
@@ -48,3 +49,4 @@ export const pacienteService = {
     return response.data;
   },
 };
+
