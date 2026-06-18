@@ -11,47 +11,28 @@ export default function PasoConfirmacion({
 
     const solicitarHora =
         async () => {
-
             try {
-
                 const cita = {
-
-                    pacienteId:
-                        paciente.id,
-
-                    doctorId:
-                        doctor.id,
-
-                    fecha:
-
-                        fecha,
-
-                    horaInicio:
-                        hora,
-
-                    estado:
-                        "PENDIENTE"
-
+                    pacienteId: paciente.id,
+                    doctor: {
+                        id: doctor.id
+                    },
+                    fecha: fecha,
+                    horaInicio: hora,
+                    estado: "Pendiente"
                 };
-
                 await crearCita(
                     cita
                 );
-
                 alert(
                     "Hora solicitada correctamente"
                 );
-
             } catch (error) {
-
                 console.error(error);
-
                 alert(
                     "No fue posible generar la cita"
                 );
-
             }
-
         };
 
     const ocultarCorreo =
