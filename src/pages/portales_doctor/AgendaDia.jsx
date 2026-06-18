@@ -3,49 +3,53 @@ import React, {useEffect,useState} from "react";
 import Navbar from "./componentes/Navbar";
 import Footer from "./componentes/footer";
 
-import {obtenerCitasPorFecha} from "../../services/citaService";
+import {obtenerCitasPorFecha,actualizarCita} from "../../services/citaService";
 
 export default function AgendaDiaria() {
 
     const doctorId = 8;
-
-    const [fechaSeleccionada,
-        setFechaSeleccionada] =
-        useState(new Date());
-
-    const [citas,
-        setCitas] = useState([]);
+    const [fechaSeleccionada,setFechaSeleccionada] =useState(new Date());
+    const [citas,setCitas] = useState([]);
 
     useEffect(() => {
-
-        cargarCitas();
-
-    }, [fechaSeleccionada]);
+        cargarCitas();}, [fechaSeleccionada]);
 
     const cargarCitas = async () => {
-
         try {
-
             const fecha =
                 fechaSeleccionada
                     .toISOString()
                     .split("T")[0];
-
             const data =
                 await obtenerCitasPorFecha(
                     doctorId,
                     fecha
                 );
                 console.log(data);
-
             setCitas(data);
-
         } catch (error) {
-
             console.error(error);
-
         }
     };
+
+
+    const cambiarEstado = async (cita,nuevoEstado) => {
+        try {
+            await actualizarCita(
+                cita.id,
+                {estado: nuevoEstado}
+            );
+            await cargarCitas();
+        } catch (error) {
+            console.error(error);
+            alert(
+                "No fue posible actualizar la cita"
+            );
+        }
+    };
+
+
+
 
     const cambiarDia = (dias) => {
 
@@ -199,13 +203,34 @@ export default function AgendaDiaria() {
                                         </p>
                                     </div>
                                     <div className="d-flex gap-2">
-                                        <button className="btn btn-success btn-sm">
-                                            Iniciar
+                                        <button
+                                            className="btn btn-success btn-sm"
+                                            onClick={() =>
+                                                cambiarEstado(cita,"REALIZADA")}>
+                                            Cita Realizada
                                         </button>
-                                        <button className="btn btn-warning btn-sm">
-                                            No asistió
+
+                                        <button
+                                            className="btn btn-warning btn-sm"
+                                            onClick={() =>
+                                                cambiarEstado(
+                                                    cita,
+                                                    "NO_ASISTE"
+                                                )
+                                            }
+                                        >
+                                            No asiste
                                         </button>
-                                        <button className="btn btn-danger btn-sm">
+
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() =>
+                                                cambiarEstado(
+                                                    cita,
+                                                    "CANCELADA"
+                                                )
+                                            }
+                                        >
                                             Cancelar
                                         </button>
                                     </div>
