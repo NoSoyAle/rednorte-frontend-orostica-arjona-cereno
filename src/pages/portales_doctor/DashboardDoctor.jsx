@@ -264,7 +264,7 @@ export default function DoctorDashboard() {
                                     data-bs-target="#modalDisponibilidad">
                                     Configurar Turnos
                                 </button>
-                                <Link to="/AgendaMensual"
+                                <Link to="/PacientesDoctor"
                                     className="btn btn-outline-primary">
                                     Pacientes
                                 </Link>
