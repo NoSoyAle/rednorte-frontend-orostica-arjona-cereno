@@ -67,3 +67,8 @@ export const obtenerHorariosDisponibles = async (
 
     return response.data;
 };
+
+export const obtenerPacientesDoctor =async (doctorId) => {
+        const response =await axios.get(`${API_URL}/doctor/${doctorId}/pacientes`
+            );return response.data;
+    };

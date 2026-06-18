@@ -10,12 +10,13 @@ const Doctors = lazy(() => import('./pages/Doctors'));
 const DoctorNew = lazy(() => import('./pages/DoctorNew'));
 const PacientePortal = lazy(() => import('./pages/PacientePortal'));
 const NotFound = lazy(() => import('./pages/NotFound'));
-
 const DoctorDashboard = lazy(() => import('./pages/portales_doctor/DashboardDoctor'));
 const ModificarPerfil = lazy(() => import('./pages/portales_doctor/ModificarPerfil'));
 const AgendaMensual = lazy(() => import('./pages/portales_doctor/AgendaMensual'));
 const AgendaDiaria = lazy(() => import('./pages/portales_doctor/AgendaDia'));
 const Register = lazy(() => import('./pages/Register'));
+const PacientesDoctor = lazy(() => import('./pages/portales_doctor/PacientesDoctor'));
+
 
 function LoadingFallback() {
   return (
@@ -48,6 +49,7 @@ function AppRoutes() {
         <Route path="/doctors" element={<ProtectedRoute><Doctors /></ProtectedRoute>} />
         <Route path="/doctors/new" element={<ProtectedRoute><DoctorNew /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/PacientesDoctor"element={<PacientesDoctor />}/>
       </Routes>
     </Suspense>
   );
