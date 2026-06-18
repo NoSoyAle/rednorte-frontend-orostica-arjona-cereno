@@ -10,6 +10,13 @@ export const authService = {
       localStorage.setItem('role', role);
       localStorage.setItem('nombre', userName);
       localStorage.setItem('user', JSON.stringify({ nombre: userName, role }));
+      localStorage.setItem("rut", rut);
+
+      const rut = localStorage.getItem("rut");
+
+      const doctor = await obtenerDoctorPorRut(rut);
+
+      const doctorId = doctor.id;
 
       return { token, role, nombre: userName };
     } catch (error) {

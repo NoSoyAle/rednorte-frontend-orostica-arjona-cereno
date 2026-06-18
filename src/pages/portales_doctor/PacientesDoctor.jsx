@@ -3,14 +3,16 @@ import React,
 
 import Navbar from "./componentes/Navbar";
 import Footer from "./componentes/footer";
+import {obtenerDoctorPorRut} from "../../services/doctorService";
 
-import {
-    obtenerPacientesDoctor
-} from "../../services/citaService";
+import {obtenerPacientesDoctor} from "../../services/citaService";
 
 export default function PacientesDoctor() {
-
-    const doctorId = 8;
+    const [
+    doctorId,
+    setDoctorId
+] = useState(null);
+    
 
     const [
         pacientes,
@@ -22,11 +24,31 @@ export default function PacientesDoctor() {
         setBusqueda
     ] = useState("");
 
-    useEffect(() => {
+    useEffect(() => {cargarDoctor();}, []);
 
-        cargarPacientes();
+    useEffect(() => {if (doctorId) {cargarPacientes();}}, [doctorId]);
 
-    }, []);
+    const cargarDoctor =
+        async () => {
+            try {
+                const rut =
+                    localStorage.getItem(
+                        "rut"
+                    );
+                const doctor =
+                    await obtenerDoctorPorRut(
+                        rut
+                    );
+                setDoctorId(
+                    doctor.id
+                );
+            } catch (error) {
+                console.error(
+                    error
+                );
+            }
+        };
+
 
     const cargarPacientes =
         async () => {

@@ -2,17 +2,19 @@ import React, {useEffect,useState} from "react";
 
 import Navbar from "./componentes/Navbar";
 import Footer from "./componentes/footer";
-
+import {obtenerDoctorPorRut} from "../../services/doctorServices";
 import {obtenerCitasPorFecha,actualizarCita} from "../../services/citaService";
 
 export default function AgendaDiaria() {
+    const [doctorId, setDoctorId] =useState(null);
 
-    const doctorId = 8;
     const [fechaSeleccionada,setFechaSeleccionada] =useState(new Date());
+
     const [citas,setCitas] = useState([]);
 
-    useEffect(() => {
-        cargarCitas();}, [fechaSeleccionada]);
+    useEffect(() => {if (doctorId) {cargarCitas();}}, [
+        fechaSeleccionada,
+        doctorId]);
 
     const cargarCitas = async () => {
         try {
