@@ -12,7 +12,6 @@ const PacientePortal = lazy(() => import('./pages/PacientePortal'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const DoctorDashboard = lazy(() => import('./pages/portales_doctor/DashboardDoctor'));
 const ModificarPerfil = lazy(() => import('./pages/portales_doctor/ModificarPerfil'));
-const AgendaMensual = lazy(() => import('./pages/portales_doctor/AgendaMensual'));
 const AgendaDiaria = lazy(() => import('./pages/portales_doctor/AgendaDia'));
 const Register = lazy(() => import('./pages/Register'));
 const PacientesDoctor = lazy(() => import('./pages/portales_doctor/PacientesDoctor'));
@@ -42,7 +41,6 @@ function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/PanelDoctor" element={<DoctorDashboard />} />
         <Route path="/Modificar" element={<ModificarPerfil />} />
-        <Route path="/AgendaMensual" element={<AgendaMensual />} />
         <Route path="/AgendaDia" element={<AgendaDiaria />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
