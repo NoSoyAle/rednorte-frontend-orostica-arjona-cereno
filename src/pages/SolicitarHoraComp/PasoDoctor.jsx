@@ -137,13 +137,9 @@ export default function PasoDoctor({
                                     key={
                                         especialidad.id
                                     }
-                                    value={
-                                        especialidad.id
-                                    }
+                                    value={especialidad.id}
                                 >
-                                    {
-                                        especialidad.nombre
-                                    }
+                                    {especialidad.nombreEsp}
                                 </option>
                             )
                         )}
