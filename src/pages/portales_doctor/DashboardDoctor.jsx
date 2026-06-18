@@ -9,10 +9,12 @@ import ModalAtencion from "./componentes/ModalCita";
 import {obtenerCitasDoctor,actualizarCita,obtenerHorariosDisponibles} from "../../services/citaService";
 import {crearDisponibilidad} from "../../services/diponibilidadService";
 import { generarAtencionTxt }from "../../utils/GenerarAtencion";
+import { obtenerDoctorPorRut } from "../../services/doctorServices";
 
 export default function DoctorDashboard() {
     const navigate = useNavigate();
     const [fechaActual, setFechaActual] =useState(new Date());
+    useEffect(() => {cargarDoctor();}, []);
     const [citas, setCitas] =useState([]);
     const [proximaCita, setProximaCita] = useState(null);
     const [horariosLibres, setHorariosLibres] = useState([]);
@@ -28,18 +30,35 @@ export default function DoctorDashboard() {
         indicaciones: "",
         comentarios: ""
     });
-    // TEMPORAL
-    const doctorId = 8;
+    
+    const [doctorId, setDoctorId] = useState(null);
     const cerrar = () => {
         localStorage.clear();
         navigate("/");
     };
+    const cargarDoctor = async () => {
+        try {
+            const rut =
+                localStorage.getItem("rut");
+            const doctor =
+                await obtenerDoctorPorRut(rut);
+            setDoctorId(
+                doctor.id
+            );
+        } catch (error) {
+            console.error(
+                "Error obteniendo doctor",
+                error
+            );
+        }};
+
     useEffect(() => {const intervalo = setInterval(() => {
         setFechaActual(new Date());}, 1000);
         return () =>
             clearInterval(intervalo);}, []);
 
-    useEffect(() => {cargarCitas();}, []);
+    useEffect(() => {if (doctorId) {cargarCitas();}}, [doctorId]);
+
     const cargarCitas = async () => {
         try {const data =await obtenerCitasDoctor(doctorId);
             setCitas(data);

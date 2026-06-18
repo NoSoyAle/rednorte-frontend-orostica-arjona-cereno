@@ -22,3 +22,14 @@ export const obtenerDoctoresPorEspecialidad =
 
         return response.data;
     };
+
+export const obtenerDoctorPorRut =
+    async (rut) => {
+
+        const response =
+            await axios.get(
+                `${API_URL}/rut/${rut}`
+            );
+
+        return response.data;
+    };
