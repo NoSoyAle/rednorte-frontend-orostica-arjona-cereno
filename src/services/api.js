@@ -26,9 +26,6 @@ api.interceptors.response.use(
     console.error('Token en localStorage:', localStorage.getItem('token'));
     console.error('========================');
     
-    if (error.response?.status === 401) {
-      alert(`Error 401:\n\nURL: ${error.config?.url}\n\nRespuesta: ${JSON.stringify(error.response?.data)}`);
-    }
     return Promise.reject(error);
   }
 );

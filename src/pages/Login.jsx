@@ -56,12 +56,13 @@ export default function Login() {
       console.error('Error data:', error.response?.data);
       console.error('========================');
       
-      const errorMsg = error.response?.status === 401 
-        ? 'Credenciales inválidas' 
-        : error.response?.data?.message || error.message || 'Error de conexión con el servidor';
-      
-      alert(`Error en login:\n\nStatus: ${error.response?.status}\n\nMensaje: ${errorMsg}`);
-      
+      const errorMsg =
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        (error.response?.status === 401 ? 'Credenciales inválidas' : null) ||
+        error.message ||
+        'Error de conexión con el servidor';
+
       Swal.fire({
         icon: 'error',
         title: 'Error de acceso',
