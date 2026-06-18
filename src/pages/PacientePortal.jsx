@@ -230,9 +230,27 @@ Válido como comprobante de asistencia institucional.
           </div>
         </div>
       </header>
-
+      <div className="text-center my-5">
+          <button
+              className="btn-reservar-hora"
+              onClick={() => navigate("/hora_medica")}
+              style={{
+                background: "#087f7a",
+                color: "white",
+                border: "none",
+                padding: "20px 90px",
+                fontSize: "1.4rem",
+                fontWeight: "bold",
+                borderRadius: "15px",
+                cursor: "pointer"
+    }}
+          >
+            Reserva tu hora
+          </button>
+      </div>
       <main id="inicio" style={s.main}>
         <section style={{ ...s.hero, ...(isMobile ? s.heroMobile : {}) }}>
+          
           <div>
             <p style={s.eyebrow}>Atención coordinada en hospitales, APS y clínicas especializadas</p>
             <h1 style={s.heroTitle}>Consulta tu avance y encuentra apoyo de salud sin iniciar sesión.</h1>
@@ -828,4 +846,5 @@ const s = {
   footerHeading: { margin: '0 0 12px', color: '#fff' },
   footerText: { margin: '0 0 6px', color: '#c9d6df', fontSize: 14 },
   footerLink: { display: 'block', marginTop: 8, color: '#c9d6df', fontSize: 14, textDecoration: 'none' },
+  
 };
